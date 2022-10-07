@@ -1,0 +1,47 @@
+body, html {
+    margin: 0px;
+    padding: 0px;
+    background-color: #ededed;
+    font-family: 'Trebuchet MS';
+}
+
+.Container {
+    width: 100%;
+    min-width: 500px;
+    margin: auto;
+    display: flex;
+    position: relative;
+}
+
+.child {
+display:inline-block;
+vertical-align:top;
+position: relative;
+}
+
+#resultText{
+    width:700px;
+    height: 900px;
+}
+
+#myInput{
+    width:700px;
+    height: 900px;
+}
+
+/* #button2{
+    margin-left: 700px;
+} */
+
+#button1{
+    margin-left: 600px;
+    margin-right: 100px;
+}
+
+#button3{
+    margin-left: 20px;
+}
+
+#button4{
+    margin-left: 400px;
+}

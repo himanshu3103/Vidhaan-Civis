@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewingPage</title>
+    <link rel="stylesheet" type="text/css" href="viewingPage.css">
+</head>
+<body>
+        <!-- <input type="file" id="inpFile">
+        <button type="button" id="btnUpload">Upload</button>
+        <br>
+        <br> -->
+        <button id="button1">Prev</button>
+        <button id="button2">Next</button>
+        <!-- <button id="button3">View the dictionary</button> -->
+        <button id="button4"><a href="index.html">EditingPage</a></button>
+        <br>
+        <br>
+        <div class="Container">
+        <div class="parent">
+            <div class="child">
+                <div class="child1">
+                    <textarea id="resultText" placeholder="Your pdf text appears here..." readonly>
+                    </textarea>
+                </div>
+            </div>
+            <div class="child">
+                <div class="child2">
+                    <textarea type="text" placeholder="Type something..." id="myInput"></textarea>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            const dict = {"sum1":"content1","sum2":"content2","sum3":"content3","sum4":"content4","sum5":"content5","sum6":"content6","sum7":"content7"}
+            const sumtext = document.getElementById("myInput");
+            const doctext = document.getElementById("resultText");
+            const keys = Object.keys(dict);
+            keys.forEach((key, index) => {
+                sumtext.value += `${index}`+". \t"+key+"\n";
+                doctext.value += `${index}`+". \t"+dict[key]+"\n";
+                //console.log(`${key}: ${courses[key]}`);
+});
+
+        </script>
+</body>
+</html>

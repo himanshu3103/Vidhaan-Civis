@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+        <input type="file" id="inpFile">
+        <button type="button" id="btnUpload">Upload</button>
+        <br>
+        <br>
+        <button id="button1">Link Text</button>
+        <label class="switch">
+            <input type="checkbox" id="chbx" onchange="foo()">
+            <span class="slider round"></span>
+        </label>
+        <button id="button2">Link Summary</button>
+        <!-- <button id="button3">View the dictionary</button> -->
+        <!-- <button id="button4"><a href="viewingPage.html">Preview</a></button> -->
+        <button id="post">Done Linking</button>
+
+        <br>
+        <br>
+        <div class="Container">
+        <div class="parent">
+            <div class="child">
+                <div class="child1">
+                    <textarea id="resultText" placeholder="Your pdf text appears here..." readonly></textarea>
+                    <iframe id="myFrame" style="display:none"></iframe>
+                </div>
+            </div>
+            <div class="child">
+                <div class="child2">
+                    <textarea type="text" placeholder="Type something..." id="myInput"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const inpFile = document.getElementById("inpFile");
+        const btnUpload = document.getElementById("btnUpload");
+        const resultText = document.getElementById("resultText");
+        const postBtn = document.getElementById('post');
+
+        const baseUrl = "http://localhost:8383/"
+
+        btnUpload.addEventListener("click",() => {
+            const formData = new FormData();
+            formData.append("pdfFile",inpFile.files[0]);
+            fetch("/extract-text",{
+                method: "post",
+                body: formData
+            }).then(response => {
+                return response.text();
+            }).then(extractedText => {
+                resultText.value = extractedText;
+            })
+        });
+
+        var checkbox = document.getElementById("chbx");
+
+        function foo(){
+            var omyFrame = document.getElementById("myFrame");
+            omyFrame.style.display="block";
+            //omyFrame.src = "../../"+String(inpFile.files[0].name);
+            if(checkbox.checked==true){
+                //alert("../"+String(inpFile.files[0].name));
+                omyFrame.src = "../"+"sample.pdf";
+                    }
+            };
+
+        var dict={};
+        button2.onclick = () => {
+
+            let inputVal = myInput.value.slice(myInput.selectionStart, myInput.selectionEnd);
+            inputVal = inputVal.trim();
+            //console.log(inputVal);
+            button1.onclick = () => {
+                if (resultText.selectionStart == resultText.selectionEnd) {
+                alert("Empty");
+                return; // nothing is selected
+                };
+
+                let selected = resultText.value.slice(resultText.selectionStart, resultText.selectionEnd);
+                selected = selected.trim();
+                //console.log(selected)
+
+                if(inputVal in dict){
+                    dict[inputVal].push(selected);
+                    //console.log("in the if condition");
+                }else{
+                    dict[inputVal]=[selected];
+                    //console.log("in the else condition");
+                }
+
+            }
+        }
+        // button3.onclick = () => {
+        //     console.log(dict)
+        // }
+
+        postBtn.addEventListener('click',postInfo)
+        async function postInfo(e){
+            e.preventDefault();
+            if(Object.keys(dict).length === 0){return}
+            const res = await fetch(baseUrl,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    parcel: dict
+                })
+
+            })
+        }
+
+    </script> 
+
+</body>
+</html>
